@@ -1,43 +1,22 @@
-// A C program to demonstrate Orphan Process.  
-// Parent process finishes execution while the 
-// child process is running. The child process 
-// becomes orphan. 
-#include<stdio.h> 
-#include <sys/types.h> 
-#include <unistd.h> 
+// Write a program to implement orphan process
 
-  
+#include<stdio.h>
+#include<stdlib.h>
+#include<unistd.h>
 
-int main() 
-{ 
+int main() {
+	int child_pid = fork();
+	if(child_pid < 0) { printf("fork failed."); }
+	else if(child_pid == 0) {
+		printf("Inside child process with PID: %d\n", getpid());
+		printf("Parent process: %d\n", getppid());
+		sleep(10);
+		printf("child process is done.\n");
+	}
+	else {
+		printf("Parent process is running %d \n", getpid());
+		printf("Parent process is done.\n");
+	}
 
-    // Create a child process       
-
-    int pid = fork(); 
-
-  
-
-    if (pid > 0) 
-
-        printf("in parent process"); 
-
-  
-
-    // Note that pid is 0 in child process 
-
-    // and negative if fork() fails 
-
-    else if (pid == 0) 
-
-    { 
-
-        sleep(30); 
-
-        printf("in child process"); 
-
-    } 
-
-  
-
-    return 0; 
-} 
+	return 0;
+}
